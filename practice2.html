@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Numerical Integration</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+</head>
+<body>
+ 
+
+  <!-- <script>
+    // Trapezoidal Rule for integration
+    function integrate(f, a, b, n = 1000) {
+      let h = (b - a) / n;
+      let sum = 0.5 * (f(a) + f(b));
+
+      for (let i = 1; i < n; i++) {
+        sum += f(a + i * h);
+      }
+
+      return sum * h;
+    }
+
+    // Example function: sin(x)
+    const f = x => Math.sin(x);
+
+    // Integrate from 0 to PI
+    const result = integrate(f, 0, Math.PI);
+
+    console.log("Integration Result:", result); // Should be close to 2
+  </script> -->
+
+<!-- 
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML = Math.log(2);
+</script> -->
+
+<p id="demo"></p>
+
+<script>
+let text = "12345";
+let min = Math.min(...text);
+let max = Math.max(...text);
+
+document.getElementById("demo").innerHTML =
+"Minimum is: " + min + "<br>Maximum is: " + max;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP + Tailwind Scroll Example</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body class="min-h-[200vh] bg-gray-100 flex flex-col items-center justify-start">
+
+  <h1 class="text-3xl font-bold mt-20">Scroll Down 👇</h1>
+
+  <!-- lots of space to scroll -->
+  <div class="h-[100vh]"></div>
+
+  <!-- Tailwind styled button -->
+  <button id="animateBtn" class="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg">
+    Animate Me
+  </button>
+
+  <script>
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate button when it comes into view
+    gsap.from("#animateBtn", {
+      scale: 0,             // start small
+      rotation: -180,       // start rotated
+      duration: 1,          
+      ease: "bounce.out",
+      scrollTrigger: {
+        trigger: "#animateBtn",   // element to watch
+        start: "top 80%",         // when top of button hits 80% of viewport
+        toggleActions: "play none none none" // play once
+      }
+    });
+  </script>
+</body>
+</html>

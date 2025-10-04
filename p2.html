@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Quote Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold mb-6 text-gray-700">✨ Random Quote Generator</h1>
+
+    <!-- Quote Display -->
+    <p id="quote" class="text-lg italic text-gray-600 mb-4">
+      Click the button to generate a quote!
+    </p>
+    <p id="author" class="text-sm font-semibold text-gray-500"></p>
+
+    <!-- Button -->
+    <button id="newQuoteBtn"
+      class="mt-6 px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition">
+      New Quote
+    </button>
+  </div>
+
+  <script>
+   const quotes = [
+  { text: "The best way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+  { text: "Don't let yesterday take up too much of today.", author: "Will Rogers" },
+  { text: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+  { text: "If you are working on something exciting, it will keep you motivated.", author: "Steve Jobs" },
+  { text: "Success is not in what you have, but who you are.", author: "Bo Bennett" }
+];
+
+const quoteEl = document.getElementById("quote");
+const authorEl = document.getElementById("author");
+const btn = document.getElementById("newQuoteBtn");
+
+// Function to show a random quote
+function showRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const randomQuote = quotes[randomIndex];
+  quoteEl.textContent = `"${randomQuote.text}"`;
+  authorEl.textContent = `— ${randomQuote.author}`;
+}
+
+// Event listener for button click
+btn.addEventListener("click", showRandomQuote);
+
+// Auto-generate every 5 seconds (5000 ms)
+setInterval(showRandomQuote, 5000);
+
+  </script>
+</body>
+</html>

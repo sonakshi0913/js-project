@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.js">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script>
+        // primitive data types
+        let a = null;
+        let b = 500;
+        let c = true ;
+        let d = BigInt("200");
+        let e = Symbol("I am a nice symbol");
+        let f = "Sonakshi";
+        let g = undefined;
+
+        console.log(a, b, c, d, e, f, g)
+
+        // object (non-primitive data types)
+        const item = {
+            "payal" : true,
+            "lakshita" : undefined,
+            "bhoomi" : false,
+            "sonakshi" : 50
+        }
+
+        console.log(item["lakshita"])
+        console.log(item["bhoomi"])
+        console.log(item["sonakshi"])
+        console.log(item["payal"])
+
+        // practice-set-1
+
+        // Q-1 (add a string and a number)
+        let h = "Sonakshi";
+        let i = 5;
+        console.log(h+i)
+
+        // Q-2 (use of typeof)
+        console.log(typeof (h+i))
+
+        // Q-3 (create a const object can you change it to hold a number later)
+        const list = {
+            name : "Sonakshi",
+            section : 1,
+
+        }
+        console.log(list["name"])
+        // we can't change a constant to hold a number
+
+        // Q-4 (add a new key to const object)
+        list['jan'] = "feb"
+        console.log(list)
+
+        // Q-5 (create a word-meaning dictionary of 5 words)
+        const dict = {
+            ramose : "having many branches",
+            faithful  : "loyal",
+            insane : "crazy",
+            nefarious : "wicked",
+            Belie :"To give a false impression of, to misrepresent.",
+            
+        }
+
+        console.log(dict.insane)
+      
+
+        
+
+    </script>
+</body>
+</html>

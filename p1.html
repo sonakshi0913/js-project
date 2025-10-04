@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List with Alarm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-lg">
+    <!-- Input Row -->
+    <div class="flex mb-4">
+      <input id="taskInput" type="text" placeholder="Enter a new task"
+        class="flex-1 px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <input id="taskTime" type="time"
+        class="px-3 py-2 border-t border-b focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button id="addBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 rounded-r-lg">+</button>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="flex gap-2 mb-4">
+      <button class="filter-btn bg-gray-500 text-white px-3 py-1 rounded" data-filter="all">All</button>
+      <button class="filter-btn border px-3 py-1 rounded" data-filter="completed">Completed</button>
+      <button class="filter-btn border px-3 py-1 rounded" data-filter="pending">Pending</button>
+    </div>
+
+    <!-- Task List -->
+    <ul id="taskList" class="space-y-2"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("taskInput");
+    const timeInput = document.getElementById("taskTime");
+    const addBtn = document.getElementById("addBtn");
+    const taskList = document.getElementById("taskList");
+    const filterBtns = document.querySelectorAll(".filter-btn");
+
+    let tasks = [];
+
+    // Add Task
+    addBtn.addEventListener("click", () => {
+      const text = input.value.trim();
+      const time = timeInput.value;
+      if (text === "" || time === "") return;
+
+      const task = { id: Date.now(), text, time, completed: false };
+      tasks.push(task);
+      renderTasks();
+
+      scheduleAlarm(task);
+
+      input.value = "";
+      timeInput.value = "";
+    });
+
+    // Render Tasks
+    function renderTasks(filter = "all") {
+      taskList.innerHTML = "";
+      tasks.forEach(task => {
+        if (filter === "completed" && !task.completed) return;
+        if (filter === "pending" && task.completed) return;
+
+        const li = document.createElement("li");
+        li.className = "flex justify-between items-center bg-gray-50 px-3 py-2 rounded-lg shadow-sm";
+
+        // Left side (checkbox + text)
+        const left = document.createElement("div");
+        left.className = "flex items-center gap-2";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.addEventListener("change", () => {
+          task.completed = checkbox.checked;
+          renderTasks(filter);
+        });
+
+        const span = document.createElement("span");
+        span.textContent = `${task.text} (⏰ ${task.time})`;
+        if (task.completed) {
+          span.className = "line-through text-gray-400";
+        }
+
+        left.appendChild(checkbox);
+        left.appendChild(span);
+
+        // Right side (edit + delete)
+        const right = document.createElement("div");
+        right.className = "flex items-center";
+
+        // Edit button (SVG)
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               fill="none" viewBox="0 0 24 24" 
+               stroke-width="2" stroke="currentColor" 
+               class="w-5 h-5 text-blue-500 hover:text-blue-700">
+            <path stroke-linecap="round" stroke-linejoin="round" 
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13l-2.685.805.805-2.685a4.5 4.5 0 011.13-1.897l10.927-10.936z"/>
+          </svg>`;
+        editBtn.addEventListener("click", () => {
+          const newText = prompt("Edit task:", task.text);
+          if (newText) {
+            task.text = newText;
+            renderTasks(filter);
+          }
+        });
+
+        // Delete button (SVG)
+        const delBtn = document.createElement("button");
+        delBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               fill="none" viewBox="0 0 24 24" 
+               stroke-width="2" stroke="currentColor" 
+               class="w-5 h-5 text-red-500 hover:text-red-700">
+            <path stroke-linecap="round" stroke-linejoin="round" 
+              d="M6 18L18 6M6 6l12 12"/>
+          </svg>`;
+        delBtn.addEventListener("click", () => {
+          tasks = tasks.filter(t => t.id !== task.id);
+          renderTasks(filter);
+        });
+
+        right.appendChild(editBtn);
+        right.appendChild(delBtn);
+
+        li.appendChild(left);
+        li.appendChild(right);
+        taskList.appendChild(li);
+      });
+    }
+
+    // Filters
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach(b => b.classList.remove("bg-gray-500","text-white"));
+        btn.classList.add("bg-gray-500","text-white");
+        renderTasks(btn.dataset.filter);
+      });
+    });
+
+    // Schedule alarm
+    function scheduleAlarm(task) {
+      const now = new Date();
+      const [h, m] = task.time.split(":").map(Number);
+      const alarmTime = new Date();
+      alarmTime.setHours(h, m, 0, 0);
+
+      let delay = alarmTime.getTime() - now.getTime();
+      if (delay < 0) {
+        console.log("⏰ Time already passed for " + task.text);
+        return;
+      }
+
+      setTimeout(() => {
+        alert("⏰ Reminder: " + task.text);
+        const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+        audio.play();
+      }, delay);
+    }
+  </script>
+</body>
+</html>

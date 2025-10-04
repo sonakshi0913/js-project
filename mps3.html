@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer with Beep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+  <div class="bg-white shadow-lg rounded-xl p-6 w-96 text-center">
+    <h2 class="text-2xl font-bold mb-4">⏳ Countdown Timer</h2>
+
+    <div class="flex justify-center gap-2 mb-4">
+      <input id="minutesInput" type="number" placeholder="Minutes" class="w-24 p-2 border rounded-lg text-center" min="0">
+      <input id="secondsInput" type="number" placeholder="Seconds" class="w-24 p-2 border rounded-lg text-center" min="0" max="59">
+    </div>
+
+    <div id="display" class="text-4xl font-mono font-bold mb-6">00:00</div>
+
+    <div class="flex justify-center gap-3">
+      <button id="start" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Start</button>
+      <button id="pause" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Pause</button>
+      <button id="reset" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Reset</button>
+    </div>
+
+    <!-- Hidden audio element for beep -->
+    <audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+  </div>
+
+  <script>
+    let totalSeconds = 0;
+    let timer = null;
+    let running = false;
+
+    function updateDisplay() {
+      let mins = Math.floor(totalSeconds / 60);
+      let secs = totalSeconds % 60;
+      document.getElementById("display").textContent =
+        String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+    }
+
+    function runTimer() {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        updateDisplay();
+      } else {
+        clearInterval(timer);
+        running = false;
+        document.getElementById("beep").play(); // 🔊 play beep instead of alert
+      }
+    }
+
+    document.getElementById("start").addEventListener("click", function() {
+      if (!running) {
+        let mins = parseInt(document.getElementById("minutesInput").value) || 0;
+        let secs = parseInt(document.getElementById("secondsInput").value) || 0;
+
+        if (totalSeconds === 0) {
+          totalSeconds = mins * 60 + secs;
+        }
+
+        if (totalSeconds > 0) {
+          timer = setInterval(runTimer, 1000);
+          running = true;
+        }
+      }
+    });
+
+    document.getElementById("pause").addEventListener("click", function() {
+      clearInterval(timer);
+      running = false;
+    });
+
+    document.getElementById("reset").addEventListener("click", function() {
+      clearInterval(timer);
+      running = false;
+      totalSeconds = 0;
+      updateDisplay();
+      document.getElementById("minutesInput").value = "";
+      document.getElementById("secondsInput").value = "";
+    });
+  </script>
+</body>
+</html>
