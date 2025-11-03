@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let name = "Sonakshi"
+        // console.log(name.length);
+        console.log(name[0]);
+        console.log(name[1]);
+        console.log(name[2]);
+        console.log(name[3]);
+        console.log(name[4]);
+        console.log(name[5]);
+        console.log(name[6]);
+        console.log(name[7]);
+
+        // template literals
+        let boy1 = "Ram";
+        let boy2 = "Shyam";
+        let sentence = `${boy2} is a friend of ${boy1}`;
+        console.log(sentence);
+
+        let a = `This is ${name}`;
+        console.log(a);
+
+        // escape sequence characters
+        let fruit = 'Bana\'na';
+        console.log(fruit);
+
+        // methods of string
+        let girl = "sonakshi";
+        console.log(girl.toUpperCase());
+        console.log(girl.toLowerCase());
+        console.log(girl.slice(2,4));
+        console.log(girl.slice(2));
+        console.log(girl.replace("so" , "mi"));
+
+        console.log(boy1.concat(" is friend of " , girl, " thats it." ));
+
+        let myname = "                 payal";
+        console.log(myname.trim());
+    </script>
+</body>
+</html>
